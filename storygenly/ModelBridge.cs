@@ -15,6 +15,11 @@ namespace StoryGenly
         private readonly string _baseUrl = "http://localhost:11434/api/";
         private string _model = "dolphin3:latest";
 
+        /// <summary>
+        /// Initializes a new instance of the ModelBridge class to interact with an Ollama API server.
+        /// </summary>
+        /// <param name="baseUrl">The base URL of the Ollama API server (e.g., "http://localhost:11434/api/")</param>
+        /// <param name="model">Optional default model name to use for requests. If not specified, uses "dolphin3:latest"</param>
         public ModelBridge(string baseUrl, string? model = null)
         {
             _httpClient = new HttpClient();
@@ -23,7 +28,17 @@ namespace StoryGenly
                 _model = model;
         }
 
-        // Generate a completion (POST /api/generate)
+        /// <summary>
+        /// Generates a text completion based on a given prompt using the Ollama API.
+        /// Uses the /api/generate endpoint to produce a single response to the provided prompt.
+        /// </summary>
+        /// <param name="prompt">The input text prompt to generate a completion for</param>
+        /// <param name="model">Optional model name to use. If null, uses the default model specified in constructor</param>
+        /// <param name="options">Optional model-specific parameters (temperature, top_p, etc.)</param>
+        /// <param name="format">Optional response format specification (e.g., "json")</param>
+        /// <param name="suffix">Optional text to append after the generated content</param>
+        /// <param name="stream">Whether to stream the response. Currently set to false for this method</param>
+        /// <returns>The generated text completion as a string</returns>
         public async Task<string> GenerateAsync(string prompt, string? model = null, object? options = null, string? format = null, string? suffix = null, bool stream = false)
         {
             var requestBody = new Dictionary<string, object?>
@@ -48,7 +63,15 @@ namespace StoryGenly
             return responseString;
         }
 
-        // Generate a chat completion (POST /api/chat)
+        /// <summary>
+        /// Generates a chat completion based on a conversation history using the Ollama API.
+        /// Uses the /api/chat endpoint to continue a conversation with context from previous messages.
+        /// </summary>
+        /// <param name="messages">Collection of messages in the conversation. Each message contains a role ("user", "assistant", "system") and content</param>
+        /// <param name="model">Optional model name to use. If null, uses the default model specified in constructor</param>
+        /// <param name="options">Optional model-specific parameters (temperature, top_p, etc.)</param>
+        /// <param name="format">Optional response format specification (e.g., "json")</param>
+        /// <returns>The assistant's response as a string</returns>
         public async Task<string> ChatAsync(IEnumerable<(string role, string content)> messages, string? model = null, object? options = null, string? format = null)
         {
             var msgList = messages.Select(m => new Dictionary<string, object?>
@@ -77,6 +100,16 @@ namespace StoryGenly
             return responseString;
         }
 
+        /// <summary>
+        /// Generates a streaming chat completion based on a conversation history using the Ollama API.
+        /// Uses the /api/chat endpoint with streaming enabled to receive the response incrementally as it's generated.
+        /// This is useful for real-time applications where you want to display the response as it's being generated.
+        /// </summary>
+        /// <param name="messages">Collection of messages in the conversation. Each message contains a role ("user", "assistant", "system") and content</param>
+        /// <param name="model">Optional model name to use. If null, uses the default model specified in constructor</param>
+        /// <param name="options">Optional model-specific parameters (temperature, top_p, etc.)</param>
+        /// <param name="format">Optional response format specification (e.g., "json")</param>
+        /// <returns>An async enumerable of string chunks representing the streaming response</returns>
         public async IAsyncEnumerable<string> ChatStreamAsync(IEnumerable<(string role, string content)> messages, string? model = null, object? options = null, string? format = null)
         {
             var msgList = messages.Select(m => new Dictionary<string, object?>
@@ -123,7 +156,11 @@ namespace StoryGenly
             }
         }
 
-        // List local models (GET /api/tags)
+        /// <summary>
+        /// Retrieves a list of all locally available models from the Ollama server.
+        /// Uses the /api/tags endpoint to get information about models that have been downloaded and are ready to use.
+        /// </summary>
+        /// <returns>An array of model names that are available locally</returns>
         public async Task<string[]> ListLocalModelsAsync()
         {
             var response = await _httpClient.GetAsync(_baseUrl + "tags");
@@ -137,7 +174,12 @@ namespace StoryGenly
             return Array.Empty<string>();
         }
 
-        // Show model information (POST /api/show)
+        /// <summary>
+        /// Retrieves detailed information about a specific model from the Ollama server.
+        /// Uses the /api/show endpoint to get metadata, parameters, and other details about the specified model.
+        /// </summary>
+        /// <param name="model">The name of the model to get information about</param>
+        /// <returns>A JSON string containing detailed model information including parameters, template, and metadata</returns>
         public async Task<string> ShowModelInfoAsync(string model)
         {
             var requestBody = new { model };
@@ -147,7 +189,13 @@ namespace StoryGenly
             return await response.Content.ReadAsStringAsync();
         }
 
-        // Pull a model (POST /api/pull)
+        /// <summary>
+        /// Downloads a model from the Ollama registry to the local server.
+        /// Uses the /api/pull endpoint to download and install a model, making it available for use.
+        /// This operation may take some time depending on the model size and network speed.
+        /// </summary>
+        /// <param name="model">The name of the model to download (e.g., "llama2", "codellama:7b")</param>
+        /// <returns>A string containing the response from the pull operation, typically including download progress information</returns>
         public async Task<string> PullModelAsync(string model)
         {
             var requestBody = new { model };
@@ -157,7 +205,12 @@ namespace StoryGenly
             return await response.Content.ReadAsStringAsync();
         }
 
-        // Delete a model (DELETE /api/delete)
+        /// <summary>
+        /// Deletes a locally stored model from the Ollama server to free up disk space.
+        /// Uses the /api/delete endpoint to remove a model that was previously downloaded.
+        /// </summary>
+        /// <param name="model">The name of the model to delete</param>
+        /// <returns>True if the model was successfully deleted, false otherwise</returns>
         public async Task<bool> DeleteModelAsync(string model)
         {
             var requestBody = new { model };
@@ -167,7 +220,15 @@ namespace StoryGenly
             return response.IsSuccessStatusCode;
         }
 
-        // Generate embeddings (POST /api/embed)
+        /// <summary>
+        /// Generates vector embeddings for the provided text inputs using the Ollama API.
+        /// Uses the /api/embed endpoint to convert text into numerical vector representations that can be used
+        /// for semantic similarity comparisons, clustering, or other machine learning tasks.
+        /// </summary>
+        /// <param name="input">Array of text strings to generate embeddings for</param>
+        /// <param name="model">Optional model name to use for embedding generation. If null, uses the default model</param>
+        /// <param name="options">Optional model-specific parameters for embedding generation</param>
+        /// <returns>A 2D array where each inner array represents the embedding vector for the corresponding input text</returns>
         public async Task<float[][]> GenerateEmbeddingsAsync(string[] input, string? model = null, object? options = null)
         {
             var requestBody = new Dictionary<string, object?>
@@ -194,7 +255,12 @@ namespace StoryGenly
             return Array.Empty<float[]>();
         }
 
-        // Get Ollama version (GET /api/version)
+        /// <summary>
+        /// Retrieves the version information of the running Ollama server.
+        /// Uses the /api/version endpoint to get details about the server version, which can be useful
+        /// for compatibility checking and debugging purposes.
+        /// </summary>
+        /// <returns>The version string of the Ollama server</returns>
         public async Task<string> GetVersionAsync()
         {
             var response = await _httpClient.GetAsync(_baseUrl + "version");
