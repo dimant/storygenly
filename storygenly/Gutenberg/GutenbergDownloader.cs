@@ -56,10 +56,24 @@ namespace StoryGenly.Gutenberg
             } while (bookResults != null);
         }
 
+        private bool IsEnglish(Book bookResult)
+        {
+            return
+                bookResult.Languages != null &&
+                bookResult.Languages.Count() == 1 &&
+                bookResult.Languages.Contains("en");
+        }
+
         public async Task DownloadBookResultsPageAsync(GutenbergResponse bookResultsPage)
         {
             foreach (var bookResult in bookResultsPage.Results)
             {
+                if (!IsEnglish(bookResult))
+                {
+                    Console.WriteLine($"Skipping non-English book: {bookResult.Title}");
+                    continue;
+                }
+
                 Console.WriteLine($"Downloading book: {bookResult.Title}");
                 var bookFilePath = Path.Combine(_downloadPath, $"{bookResult.Id}.txt");
 

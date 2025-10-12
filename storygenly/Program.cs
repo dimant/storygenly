@@ -18,13 +18,13 @@ namespace StoryGenly
 
             if (parsedArgs.ContainsKey("download-from-gutenberg"))
             {
-                await HandleGutenbergDownload(parsedArgs["download-from-gutenberg"], config);
+                await HandleGutenbergDownload(config);
                 return;
             }
 
             if (parsedArgs.ContainsKey("extract-chunks"))
             {
-                HandleExtractChunks(config);
+                await HandleExtractChunksAsync(config);
                 return;
             }
 
@@ -34,14 +34,30 @@ namespace StoryGenly
                 config["ModelBridge:DefaultModel"]);
         }
 
-        private static void HandleExtractChunks(IConfigurationRoot config)
+        private static async Task HandleExtractChunksAsync(IConfigurationRoot config)
         {
-            var chunks = TextChunker.ChunkDirectory(config["Gutenberg:DownloadPath"] ?? throw new InvalidOperationException("Gutenberg DownloadPath is not configured"));
+            var vectorDb = new AI.VectorDb(config["VectorDb:dbFilePath"] ?? throw new InvalidOperationException("VectorDb dbFilePath is not configured"));
+            var modelBridge = new ModelBridge(
+                config["ModelBridge:BaseUrl"] ?? throw new InvalidOperationException("BaseUrl is not configured"),
+                config["ModelBridge:DefaultModel"]);
+
+            var chunks = TextChunker.ChunkDirectory(
+                config["Gutenberg:DownloadPath"] ?? throw new InvalidOperationException("Gutenberg DownloadPath is not configured"),
+                maxChars: 1600,
+                overlapChars: 200);
             foreach (var chunk in chunks)
             {
-                Console.WriteLine($"Chunk from {chunk.filename} [{chunk.index}]:");
-                Console.WriteLine(chunk.code_chunk);
-                Console.WriteLine();
+                Console.WriteLine($"Embedding chunk from {chunk.filename} [{chunk.index}].");
+                var id = Path.GetFileNameWithoutExtension(chunk.filename) + $"_{chunk.index}";
+                try
+                {
+                    var embedding = await modelBridge.GenerateEmbeddingsAsync(new[] { chunk.code_chunk }, "jina/jina-embeddings-v2-base-en:latest");
+                    vectorDb.InsertRow(id, chunk.filename, chunk.index, chunk.code_chunk, chunk.hash, embedding[0]);
+                }
+                catch
+                {
+                    Console.WriteLine($"Error embedding chunk {id}: {chunk.code_chunk}");
+                }
             }
         }
 
@@ -69,8 +85,9 @@ namespace StoryGenly
             return result;
         }
 
-        private static async Task HandleGutenbergDownload(string query, IConfiguration config)
+        private static async Task HandleGutenbergDownload(IConfiguration config)
         {
+            var query = config["Gutenberg:DownloadQuery"] ?? throw new InvalidOperationException("Gutenberg DownloadQuery is not configured");
             Console.WriteLine($"Downloading books with query: {query}");
 
             var gutenbergDownloader =
