@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Data.Sqlite;
 
-namespace StoryGenly
+namespace StoryGenly.AI
 {
     public class VectorDb
     {

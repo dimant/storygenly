@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace StoryGenly
+namespace StoryGenly.AI
 {
     public class ModelBridge
     {

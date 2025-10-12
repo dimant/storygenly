@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
+using StoryGenly.AI;
+
 namespace StoryGenly
 {
     public class Program
