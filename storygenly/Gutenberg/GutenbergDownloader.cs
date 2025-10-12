@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.VisualBasic;
 using StoryGenly.Models;
 
 namespace StoryGenly.Gutenberg
@@ -23,42 +24,41 @@ namespace StoryGenly.Gutenberg
             _httpClient.Timeout = TimeSpan.FromSeconds(60);
         }
 
-        public async Task DownloadBookResultsAsync(string? query = null)
+        public async Task DownloadAllBookResultsAsync(string query)
         {
             Console.WriteLine($"Current working directory: {Directory.GetCurrentDirectory()}");
             Console.WriteLine($"Download path: {_downloadPath}");
-            
+
             if (!Directory.Exists(_downloadPath))
             {
                 Directory.CreateDirectory(_downloadPath);
             }
 
-            GutenbergResponse? bookResults = null;
-            var sanitizedQuery = query?
-                .Replace("?", "")
-                .Replace("&", "_")
-                .Replace("=", "-")
-                .Replace("+", "_");
-            var bookResultsFilePath = Path.Combine(_downloadPath, $"book_results_{sanitizedQuery}.json");
-            if (!File.Exists(bookResultsFilePath))
-            {
-                Console.WriteLine($"Downloading book results for query: {query}");
-                bookResults = await GetBookResultsAsync(query);
-                await File.WriteAllTextAsync(bookResultsFilePath, JsonSerializer.Serialize(bookResults));
-            }
-            else
-            {
-                Console.WriteLine($"Loading cached book results for query: {query}");
-                var json = await File.ReadAllTextAsync(bookResultsFilePath);
-                bookResults = JsonSerializer.Deserialize<GutenbergResponse>(json);
-            }
-
+            var bookResults = await GetBookResultsAsync(query);
             if (bookResults == null)
             {
                 throw new InvalidOperationException("Failed to retrieve book results.");
             }
 
-            foreach (var bookResult in bookResults.Results)
+            do
+            {
+                Console.WriteLine("Downloading book results page.");
+                await DownloadBookResultsPageAsync(bookResults);
+                
+                if (!string.IsNullOrEmpty(bookResults.Next))
+                {
+                    bookResults = await GetBookResultsFromUrlAsync(bookResults.Next);
+                }
+                else
+                {
+                    bookResults = null;
+                }
+            } while (bookResults != null);
+        }
+
+        public async Task DownloadBookResultsPageAsync(GutenbergResponse bookResultsPage)
+        {
+            foreach (var bookResult in bookResultsPage.Results)
             {
                 Console.WriteLine($"Downloading book: {bookResult.Title}");
                 var bookFilePath = Path.Combine(_downloadPath, $"{bookResult.Id}.txt");
@@ -82,8 +82,8 @@ namespace StoryGenly.Gutenberg
                     {
                         var response = await _httpClient.GetAsync(url);
                         Console.WriteLine($"Response status: {response.StatusCode}");
-                        
-                        if (response.StatusCode == System.Net.HttpStatusCode.Found || 
+
+                        if (response.StatusCode == System.Net.HttpStatusCode.Found ||
                             response.StatusCode == System.Net.HttpStatusCode.Redirect)
                         {
                             // Handle manual redirect if automatic redirect failed
@@ -94,7 +94,7 @@ namespace StoryGenly.Gutenberg
                                 response = await _httpClient.GetAsync(location);
                             }
                         }
-                        
+
                         response.EnsureSuccessStatusCode();
 
                         var bookContent = await response.Content.ReadAsStringAsync();
@@ -114,9 +114,14 @@ namespace StoryGenly.Gutenberg
             }
         }
 
-        public async Task<GutenbergResponse?> GetBookResultsAsync(string? query = null, int page = 1)
+        public async Task<GutenbergResponse?> GetBookResultsAsync(string? query = null)
         {
             var url = $"{_gutendexBaseUrl}{query}";
+            return await GetBookResultsFromUrlAsync(url);
+        }
+
+        public async Task<GutenbergResponse?> GetBookResultsFromUrlAsync(string url)
+        {
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
             

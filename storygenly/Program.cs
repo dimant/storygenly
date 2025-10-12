@@ -22,7 +22,7 @@ namespace StoryGenly
                     config["Gutenberg:BaseUrl"] ?? throw new InvalidOperationException("Gutenberg BaseUrl is not configured"),
                     config["Gutenberg:DownloadPath"] ?? throw new InvalidOperationException("Gutenberg DownloadPath is not configured"));
 
-            await gutenbergDownloader.DownloadBookResultsAsync("?topic=science+fiction");
+            await gutenbergDownloader.DownloadAllBookResultsAsync("?topic=science+fiction");
         }
     }
 }
