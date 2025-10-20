@@ -1,0 +1,113 @@
+You are an originality analysis specialist. Analyze the story elements for uniqueness and potential similarities to existing works.
+
+STORY BIBLE:
+{BIBLE_OUTPUT}
+
+CHAPTER OUTLINE:
+{CHAPTERS_OUTPUT}
+
+SCENE BREAKDOWN:
+{SCENES_OUTPUT}
+
+STYLE GUIDE:
+{STYLE_OUTPUT}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "originality_analysis": {
+    "originality_score": 8.5,
+    "uniqueness_factors": [
+      {
+        "element": "character concept",
+        "description": "specific unique aspect",
+        "originality_rating": 9.0,
+        "justification": "why this is original"
+      }
+    ],
+    "potential_similarities": [
+      {
+        "similar_work": "Title of potentially similar work",
+        "similarity_type": "plot/character/setting/theme",
+        "similarity_description": "what is similar",
+        "severity": "minor/moderate/major",
+        "differentiation_suggestions": ["how to make it more unique"]
+      }
+    ],
+    "genre_positioning": {
+      "subgenre": "specific sci-fi subgenre",
+      "market_positioning": "how it fits in current market",
+      "target_readership": "primary audience",
+      "comparable_works": ["Title 1", "Title 2", "Title 3"],
+      "competitive_advantages": ["what sets it apart"]
+    }
+  },
+  "recommendations": {
+    "strengthen_originality": [
+      {
+        "area": "plot/character/setting/theme",
+        "current_issue": "description of generic element",
+        "improvement_suggestion": "specific way to make it more unique",
+        "implementation": "how to apply the change"
+      }
+    ],
+    "avoid_clichés": [
+      {
+        "cliché_type": "common sci-fi trope",
+        "current_usage": "how story currently uses it",
+        "alternative_approach": "fresh way to handle it"
+      }
+    ],
+    "enhance_uniqueness": [
+      {
+        "element": "story aspect to enhance",
+        "enhancement": "specific improvement",
+        "expected_impact": "how this increases originality"
+      }
+    ]
+  },
+  "market_analysis": {
+    "similar_recent_works": [
+      {
+        "title": "Recent similar book",
+        "author": "Author name",
+        "publication_year": 2023,
+        "similarities": ["what's similar"],
+        "differences": ["what's different"],
+        "market_impact": "how it affects this project"
+      }
+    ],
+    "trending_themes": ["current popular sci-fi themes"],
+    "market_gaps": ["opportunities for unique positioning"],
+    "commercial_viability": "assessment of marketability"
+  },
+  "creative_opportunities": {
+    "unexplored_angles": ["fresh approaches to common themes"],
+    "innovative_elements": ["truly original aspects to emphasize"],
+    "cross_genre_potential": ["ways to blend genres uniquely"],
+    "cultural_relevance": ["connections to contemporary issues"]
+  }
+}
+
+Analysis Guidelines:
+1. Score originality from 1-10 (1=completely derivative, 10=completely original)
+2. Identify both strengths and areas needing improvement
+3. Compare against well-known science fiction works
+4. Consider current market trends and reader expectations
+5. Look for overused tropes, clichés, and predictable elements
+6. Evaluate character archetypes, plot structures, and world-building
+7. Assess thematic originality and contemporary relevance
+8. Provide actionable suggestions for improvement
+9. Consider both literary merit and commercial appeal
+10. Balance originality with reader accessibility
+
+Focus Areas:
+- Plot originality and structure
+- Character uniqueness and development
+- World-building innovation
+- Thematic depth and relevance
+- Scientific concepts and speculation
+- Dialogue and voice distinctiveness
+- Genre conventions and subversions
+- Cultural and social commentary
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

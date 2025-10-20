@@ -1,0 +1,150 @@
+You are a project summary specialist. Create a comprehensive summary of the completed story project.
+
+PROJECT DATA:
+Bible: {BIBLE_OUTPUT}
+Chapters: {CHAPTERS_OUTPUT}
+Scenes: {SCENES_OUTPUT}
+Style Guide: {STYLE_OUTPUT}
+Originality Analysis: {ORIGINALITY_OUTPUT}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "project_summary": {
+    "overview": {
+      "title": "Story Title",
+      "genre": "Primary genre",
+      "subgenre": "Specific subgenre",
+      "target_audience": "Intended readership",
+      "estimated_length": "word count",
+      "completion_status": "ready for writing/needs revision",
+      "uniqueness_score": 8.5
+    },
+    "story_elements": {
+      "premise": "one-sentence story summary",
+      "logline": "compelling hook description",
+      "themes": ["major themes explored"],
+      "tone": "overall story tone",
+      "setting": "primary setting description",
+      "time_period": "when story takes place"
+    },
+    "characters": {
+      "protagonist": {
+        "name": "Main character name",
+        "role": "their function in the story",
+        "arc": "character growth summary",
+        "uniqueness": "what makes them distinctive"
+      },
+      "supporting_characters": [
+        {
+          "name": "Character name",
+          "relationship": "connection to protagonist",
+          "function": "story role"
+        }
+      ],
+      "character_dynamics": "how characters interact overall"
+    },
+    "plot_structure": {
+      "act_breakdown": {
+        "act_1": "setup summary",
+        "act_2": "conflict development",
+        "act_3": "resolution approach"
+      },
+      "key_plot_points": [
+        {
+          "event": "major story event",
+          "chapter": "where it occurs",
+          "significance": "why it matters"
+        }
+      ],
+      "conflict_types": ["primary conflicts in the story"],
+      "pacing_strategy": "how tension builds throughout"
+    },
+    "world_building": {
+      "setting_uniqueness": "what makes the world distinctive",
+      "technology_level": "sci-fi hardness and innovation",
+      "social_structure": "how society works",
+      "key_locations": ["important places in the story"],
+      "world_building_strength": "assessment of setting development"
+    },
+    "writing_approach": {
+      "narrative_style": "chosen storytelling approach",
+      "pov_strategy": "point of view decisions",
+      "dialogue_approach": "how characters speak",
+      "prose_style": "writing voice and tone",
+      "technical_handling": "how sci-fi elements are presented"
+    }
+  },
+  "development_assessment": {
+    "strengths": [
+      {
+        "area": "plot/character/world/style",
+        "strength": "specific strong point",
+        "impact": "why this helps the story"
+      }
+    ],
+    "areas_for_improvement": [
+      {
+        "area": "aspect needing work",
+        "issue": "specific problem",
+        "recommendation": "how to improve",
+        "priority": "high/medium/low"
+      }
+    ],
+    "readiness_assessment": {
+      "ready_to_write": true/false,
+      "confidence_level": "high/medium/low",
+      "remaining_work": ["tasks before writing begins"],
+      "estimated_development_time": "time needed for remaining work"
+    }
+  },
+  "market_potential": {
+    "commercial_viability": "market assessment",
+    "comparable_titles": ["similar successful books"],
+    "target_publishers": ["potential publishing houses"],
+    "marketing_angles": ["selling points for promotion"],
+    "audience_appeal": "why readers will connect with this story"
+  },
+  "next_steps": {
+    "immediate_actions": ["first things to do"],
+    "writing_plan": {
+      "suggested_approach": "how to tackle the actual writing",
+      "chapter_sequence": "recommended writing order",
+      "milestone_checkpoints": ["progress markers to track"]
+    },
+    "revision_strategy": {
+      "draft_goals": "what each draft should accomplish",
+      "feedback_points": "when to seek outside input",
+      "polish_priorities": "final editing focus areas"
+    }
+  },
+  "resource_recommendations": {
+    "research_needs": ["areas requiring additional investigation"],
+    "reference_materials": ["helpful books/sources"],
+    "expert_consultations": ["specialists to consult if needed"],
+    "writing_tools": ["software or resources for the writing process"]
+  }
+}
+
+Summary Guidelines:
+1. Synthesize all project phases into a coherent overview
+2. Assess the project's readiness for the writing phase
+3. Identify both strengths and remaining challenges
+4. Provide actionable next steps for moving forward
+5. Evaluate commercial and artistic potential
+6. Consider the complete story from concept to completion
+7. Balance enthusiasm with realistic assessment
+8. Provide specific, actionable recommendations
+9. Consider the writer's needs for the actual drafting process
+10. Create a roadmap for success
+
+Assessment Criteria:
+- Story concept originality and appeal
+- Character development depth and authenticity
+- Plot structure coherence and pacing
+- World-building consistency and richness
+- Writing style appropriateness and distinctiveness
+- Market positioning and commercial viability
+- Technical execution of science fiction elements
+- Overall project cohesion and completeness
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

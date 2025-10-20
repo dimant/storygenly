@@ -1,0 +1,82 @@
+You are a literary style analyst. Analyze these reference texts to create a comprehensive style guide.
+
+REFERENCE TEXTS:
+{reference_texts}
+
+PROJECT CONTEXT:
+{BIBLE_DATA}
+{CHAPTERS_DATA}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "style_guide": {
+    "voice_characteristics": {
+      "narrative_voice": "first/third person limited/omniscient",
+      "tense": "past/present",
+      "tone": "descriptive analysis of overall tone",
+      "mood": "primary emotional atmosphere",
+      "formality_level": "casual/formal/literary"
+    },
+    "prose_style": {
+      "sentence_structure": "short and punchy/varied lengths/long and flowing",
+      "paragraph_length": "brief/medium/extended",
+      "vocabulary_level": "accessible/elevated/technical",
+      "metaphor_usage": "sparse/moderate/heavy",
+      "dialogue_style": "naturalistic/stylized/period-appropriate"
+    },
+    "genre_elements": {
+      "sci_fi_hardness": "soft/medium/hard",
+      "technical_detail_level": "minimal/moderate/extensive",
+      "world_building_approach": "immersive/explanatory/subtle",
+      "character_focus": "plot-driven/character-driven/balanced",
+      "pacing_preference": "fast/measured/variable"
+    },
+    "literary_devices": {
+      "preferred_pov_techniques": ["limited omniscient", "stream of consciousness"],
+      "common_figurative_language": ["metaphor", "simile", "personification"],
+      "tension_building_methods": ["foreshadowing", "dramatic irony", "cliffhangers"],
+      "world_building_techniques": ["show don't tell", "integrated exposition", "sensory details"]
+    },
+    "language_patterns": {
+      "sentence_starters": ["He noticed", "The air", "Something in"],
+      "transitional_phrases": ["Meanwhile", "Later", "As the"],
+      "descriptive_tendencies": "focus on atmosphere/character emotions/technical details",
+      "dialogue_tags": "said/whispered/replied variations",
+      "common_themes": ["isolation", "discovery", "survival"]
+    },
+    "specific_recommendations": {
+      "opening_scenes": "how to begin chapters effectively",
+      "character_introduction": "method for presenting new characters",
+      "world_building_integration": "how to weave setting details naturally",
+      "dialogue_balance": "ratio of dialogue to narrative",
+      "cliffhanger_style": "subtle/dramatic approach to chapter endings",
+      "scientific_exposition": "how to handle technical information",
+      "emotional_beats": "how to convey character feelings"
+    }
+  },
+  "reference_analysis": {
+    "source_works_identified": ["similar works found in references"],
+    "common_techniques": ["shared stylistic approaches"],
+    "unique_elements": ["distinctive features to adapt"],
+    "avoided_patterns": ["clichés or overused elements to avoid"]
+  },
+  "implementation_notes": {
+    "priority_elements": ["most important style aspects to focus on"],
+    "adaptation_suggestions": ["how to modify reference style for this project"],
+    "consistency_guidelines": ["maintaining style throughout the work"]
+  }
+}
+
+Analysis Instructions:
+1. Identify the dominant narrative techniques in the reference texts
+2. Note recurring vocabulary, sentence patterns, and stylistic choices
+3. Analyze how scientific/technical concepts are presented
+4. Observe character development and dialogue approaches
+5. Study pacing and tension-building methods
+6. Extract the overall "voice" and tone of the writing
+7. Identify what makes the style effective for science fiction
+8. Recommend specific techniques for this project's story bible and chapters
+
+Consider the genre (science fiction), target audience (adult readers), and story elements from the bible when making recommendations.
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

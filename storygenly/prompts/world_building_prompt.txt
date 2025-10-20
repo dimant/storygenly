@@ -1,0 +1,147 @@
+You are a world-building enhancement specialist. Create detailed world-building documentation based on the story bible.
+
+STORY BIBLE:
+{BIBLE_DATA}
+
+CHAPTER OUTLINE:
+{CHAPTERS_DATA}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "world_building": {
+    "setting_overview": {
+      "primary_location": "main setting name",
+      "time_period": "when the story takes place",
+      "technological_level": "advancement description",
+      "social_structure": "how society is organized",
+      "political_system": "governance structure",
+      "economic_system": "how resources are managed"
+    },
+    "locations": [
+      {
+        "name": "Location Name",
+        "type": "city/station/ship/planet/facility",
+        "description": "detailed physical description",
+        "atmosphere": "mood and feeling of the place",
+        "population": "who lives/works there",
+        "key_features": ["notable landmarks or areas"],
+        "environmental_factors": {
+          "climate": "weather/atmospheric conditions",
+          "hazards": ["dangers present"],
+          "resources": ["available materials/energy"],
+          "accessibility": "how easy it is to reach"
+        },
+        "cultural_aspects": {
+          "customs": ["local traditions"],
+          "taboos": ["things to avoid"],
+          "social_norms": ["expected behaviors"],
+          "language_variations": ["speech patterns/dialects"]
+        },
+        "plot_significance": "why this location matters to the story",
+        "scenes_set_here": ["which scenes take place here"]
+      }
+    ],
+    "technology": {
+      "transportation": {
+        "methods": ["available transport options"],
+        "limitations": ["restrictions or problems"],
+        "accessibility": "who can use what"
+      },
+      "communication": {
+        "systems": ["how people communicate"],
+        "range": "distance limitations",
+        "reliability": "how dependable it is"
+      },
+      "medical": {
+        "capabilities": ["what can be treated"],
+        "limitations": ["what cannot be fixed"],
+        "accessibility": "who has access"
+      },
+      "weapons_defense": {
+        "available_weapons": ["combat options"],
+        "defensive_systems": ["protection methods"],
+        "restrictions": ["legal/practical limits"]
+      },
+      "daily_life": {
+        "utilities": ["power, water, air systems"],
+        "entertainment": ["recreational technology"],
+        "work_tools": ["professional equipment"]
+      }
+    },
+    "science_and_physics": {
+      "scientific_principles": [
+        {
+          "principle": "scientific concept",
+          "how_it_works": "explanation in story world",
+          "limitations": "what it cannot do",
+          "story_implications": "impact on plot/characters"
+        }
+      ],
+      "technological_constraints": ["what technology cannot do"],
+      "scientific_accuracy": "how realistic vs speculative",
+      "breakthrough_technologies": ["unique innovations in this world"]
+    },
+    "society_and_culture": {
+      "social_hierarchy": {
+        "class_structure": "social stratification",
+        "mobility": "can people change status",
+        "power_distribution": "who has influence"
+      },
+      "cultural_values": {
+        "core_beliefs": ["fundamental principles"],
+        "moral_frameworks": ["ethical systems"],
+        "religious_spiritual": ["belief systems"]
+      },
+      "daily_life": {
+        "work_patterns": "how people make a living",
+        "social_interactions": "how people relate",
+        "leisure_activities": "entertainment and hobbies",
+        "family_structures": "relationship patterns"
+      },
+      "conflicts_tensions": {
+        "social_problems": ["ongoing issues"],
+        "cultural_clashes": ["conflicting values"],
+        "resource_competition": ["scarcity issues"]
+      }
+    },
+    "history_and_background": {
+      "key_historical_events": [
+        {
+          "event": "major historical moment",
+          "when": "time period",
+          "impact": "how it shaped current world",
+          "ongoing_effects": "current consequences"
+        }
+      ],
+      "cultural_evolution": "how society developed",
+      "technological_development": "how tech advanced",
+      "political_changes": "governmental evolution"
+    }
+  },
+  "world_consistency": {
+    "physics_rules": ["consistent physical laws"],
+    "logical_constraints": ["what must remain internally consistent"],
+    "cause_and_effect": ["how actions have consequences"],
+    "world_building_bible": ["reference facts to maintain consistency"]
+  },
+  "narrative_integration": {
+    "world_as_character": "how setting affects story",
+    "environmental_storytelling": "what the world reveals without exposition",
+    "sensory_details": ["sights, sounds, smells, textures unique to this world"],
+    "world_building_scenes": ["moments that showcase the setting"]
+  }
+}
+
+World-Building Guidelines:
+1. Expand location details from the bible with rich sensory information
+2. Create internal consistency across all world elements
+3. Consider how world-building serves the story and characters
+4. Balance familiar and alien elements for reader engagement
+5. Ensure technology and society logically connect
+6. Create believable cause-and-effect relationships
+7. Design world elements that create natural story conflicts
+8. Consider the implications of each technological/social element
+9. Make the world feel lived-in and authentic
+10. Plan how world-building will be revealed naturally through the story
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

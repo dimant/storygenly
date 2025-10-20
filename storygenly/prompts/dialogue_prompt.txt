@@ -1,0 +1,154 @@
+You are a dialogue enhancement specialist. Create realistic and distinctive dialogue for each character.
+
+STORY BIBLE:
+{BIBLE_DATA}
+
+CHARACTER PROFILES:
+{character_profiles}
+
+CHAPTER OUTLINE:
+{CHAPTERS_DATA}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "dialogue_guide": {
+    "character_voices": [
+      {
+        "character_name": "Character Name",
+        "speech_characteristics": {
+          "vocabulary_level": "simple/moderate/complex/technical",
+          "sentence_length": "short/varied/long",
+          "formality": "casual/professional/formal",
+          "cultural_markers": ["words/phrases showing background"],
+          "technical_language": "field-specific terminology used",
+          "emotional_range": "how they express feelings"
+        },
+        "speech_patterns": {
+          "common_phrases": ["regularly used expressions"],
+          "sentence_starters": ["typical ways they begin statements"],
+          "filler_words": ["um, well, you know"],
+          "interruption_style": "how they break into conversations",
+          "question_patterns": "how they ask for information",
+          "agreement_disagreement": "how they show consensus or conflict"
+        },
+        "dialogue_examples": [
+          {
+            "situation": "greeting someone",
+            "example": "sample dialogue line",
+            "analysis": "what this reveals about character"
+          },
+          {
+            "situation": "under stress",
+            "example": "sample dialogue line",
+            "analysis": "how stress affects their speech"
+          },
+          {
+            "situation": "explaining something technical",
+            "example": "sample dialogue line",
+            "analysis": "how they share expertise"
+          },
+          {
+            "situation": "showing emotion",
+            "example": "sample dialogue line",
+            "analysis": "how they express feelings"
+          }
+        ],
+        "character_growth_speech": {
+          "early_story": "how they speak at the beginning",
+          "character_development": "how speech evolves",
+          "final_state": "how they speak by the end"
+        }
+      }
+    ],
+    "conversation_dynamics": {
+      "power_relationships": [
+        {
+          "characters": ["Character A", "Character B"],
+          "power_dynamic": "equal/dominant-submissive/shifting",
+          "how_it_shows": "speech patterns that reveal the relationship",
+          "evolution": "how the dynamic changes"
+        }
+      ],
+      "group_conversations": {
+        "speaking_order": "who talks when in group settings",
+        "dominance_patterns": "who controls conversations",
+        "interruption_hierarchy": "who can interrupt whom",
+        "topic_steering": "who directs conversation topics"
+      }
+    },
+    "dialogue_techniques": {
+      "subtext_usage": {
+        "when_used": "situations where characters don't say what they mean",
+        "common_subtexts": ["hidden meanings frequently present"],
+        "revelation_methods": "how subtext becomes clear"
+      },
+      "conflict_dialogue": {
+        "argument_styles": ["how different characters fight"],
+        "escalation_patterns": "how conflicts build in conversation",
+        "resolution_approaches": "how characters make peace"
+      },
+      "exposition_integration": {
+        "information_delivery": "how characters share background naturally",
+        "avoiding_info_dumps": "techniques for natural revelation",
+        "question_answer_flow": "organic information exchange"
+      }
+    },
+    "scene_specific_dialogue": [
+      {
+        "scene_type": "first meeting",
+        "dialogue_goals": ["establish character", "create tension"],
+        "techniques": ["specific approaches for this scene type"],
+        "example_exchange": "brief sample conversation"
+      },
+      {
+        "scene_type": "conflict confrontation",
+        "dialogue_goals": ["escalate tension", "reveal motivations"],
+        "techniques": ["specific approaches for this scene type"],
+        "example_exchange": "brief sample conversation"
+      },
+      {
+        "scene_type": "emotional revelation",
+        "dialogue_goals": ["deepen character", "advance relationships"],
+        "techniques": ["specific approaches for this scene type"],
+        "example_exchange": "brief sample conversation"
+      }
+    ]
+  },
+  "dialogue_consistency": {
+    "voice_maintenance": ["how to keep character speech consistent"],
+    "evolution_tracking": ["how speech changes with character growth"],
+    "relationship_reflection": ["how dialogue shows character connections"],
+    "cultural_authenticity": ["maintaining believable backgrounds in speech"]
+  },
+  "technical_considerations": {
+    "dialogue_tags": {
+      "preferred_tags": ["said alternatives to use"],
+      "action_beats": ["physical actions that accompany speech"],
+      "emotional_indicators": ["ways to show feeling without telling"]
+    },
+    "pacing_through_dialogue": {
+      "fast_scenes": "short, clipped exchanges",
+      "slow_scenes": "longer, more thoughtful conversations",
+      "tension_building": "how dialogue creates suspense"
+    },
+    "realism_vs_readability": {
+      "natural_speech": "including realistic hesitations and mistakes",
+      "clarity_needs": "ensuring reader comprehension",
+      "balance_point": "optimal mix of realistic and readable"
+    }
+  }
+}
+
+Dialogue Creation Guidelines:
+1. Make each character's voice distinctive and consistent
+2. Ensure dialogue serves multiple purposes (character, plot, world-building)
+3. Balance realism with readability
+4. Use dialogue to reveal character relationships and tensions
+5. Integrate exposition naturally through conversation
+6. Show character growth through evolving speech patterns
+7. Create authentic conflict through dialogue
+8. Use subtext to add depth and realism
+9. Vary dialogue pacing to match scene needs
+10. Ensure cultural and educational backgrounds affect speech authentically
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

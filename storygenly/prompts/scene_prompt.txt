@@ -1,0 +1,72 @@
+You are a scene breakdown specialist. Create detailed scene-by-scene breakdowns for each chapter.
+
+CHAPTER OUTLINE:
+{CHAPTERS_DATA}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "scenes": [
+    {
+      "id": "ch1_sc1",
+      "chapter": 1,
+      "scene_number": 1,
+      "title": "Scene Title",
+      "location": "specific location",
+      "characters_present": ["character1", "character2"],
+      "pov_character": "viewpoint character",
+      "time_of_day": "morning/afternoon/evening/night",
+      "duration": "minutes/hours",
+      "purpose": "advance plot/develop character/build world/create tension",
+      "summary": "2-3 sentence description of what happens",
+      "conflict": "what tension or problem drives this scene",
+      "dialogue_heavy": true/false,
+      "action_sequences": ["description of any action"],
+      "emotional_beats": ["fear", "hope", "anger"],
+      "world_building_elements": ["tech/culture/environment details revealed"],
+      "foreshadowing": ["subtle hints about future events"],
+      "scene_goal": "what must be accomplished",
+      "obstacle": "what prevents easy success",
+      "outcome": "how scene resolves",
+      "transition": "how it connects to next scene",
+      "estimated_words": 1500
+    }
+  ],
+  "scene_statistics": {
+    "total_scenes": 45,
+    "avg_scenes_per_chapter": 4,
+    "dialogue_heavy_scenes": 18,
+    "action_scenes": 12,
+    "introspective_scenes": 15,
+    "total_estimated_words": 75000
+  },
+  "pacing_notes": {
+    "act_1_pace": "measured introduction",
+    "act_2_pace": "escalating tension",
+    "act_3_pace": "rapid resolution"
+  }
+}
+
+Guidelines:
+- Create 3-6 scenes per chapter
+- Each scene should be 1,200-2,000 words
+- Vary scene lengths for pacing
+- Balance different scene types (dialogue, action, introspection)
+- Each scene must advance story or develop character
+- Include clear scene goals and obstacles
+- Show don't tell - use concrete actions and dialogue
+- Create smooth transitions between scenes
+- Build tension within and across scenes
+- Use sensory details and world-building
+- Ensure each character's presence serves a purpose
+
+Scene Types to Include:
+- Opening hooks that grab attention
+- Character interaction scenes
+- World-building reveal scenes
+- Conflict/tension scenes
+- Plot advancement scenes
+- Emotional/relationship scenes
+- Action/suspense scenes
+- Resolution/transition scenes
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

@@ -32,6 +32,14 @@ namespace StoryGenly
             var modelBridge = new ModelBridge(
                 config["ModelBridge:BaseUrl"] ?? throw new InvalidOperationException("BaseUrl is not configured"),
                 config["ModelBridge:DefaultModel"]);
+            var vectorDb = new AI.VectorDb(
+                config["VectorDb:dbFilePath"] ?? throw new InvalidOperationException("VectorDb dbFilePath is not configured"));
+
+            var storyGenerator = new Engine.StoryEngine(modelBridge, vectorDb,
+                config["StoryEngine:OutputFolder"] ?? throw new InvalidOperationException("StoryEngine OutputFolder is not configured"),
+                config["StoryEngine:PromptsFolder"] ?? throw new InvalidOperationException("StoryEngine PromptsFolder is not configured"));
+
+            await storyGenerator.GenerateStoryAsync();
         }
 
         private static async Task HandleExtractChunksAsync(IConfigurationRoot config)

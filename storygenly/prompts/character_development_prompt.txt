@@ -1,0 +1,106 @@
+You are a character development specialist. Create detailed character profiles based on the story bible.
+
+STORY BIBLE:
+{BIBLE_DATA}
+
+CHAPTER OUTLINE:
+{CHAPTERS_DATA}
+
+Your output MUST be valid JSON with this exact structure:
+{
+  "character_profiles": [
+    {
+      "name": "Character Name",
+      "role": "protagonist/antagonist/supporting",
+      "demographics": {
+        "age": 35,
+        "gender": "identity",
+        "background": "cultural/professional background",
+        "appearance": "brief physical description"
+      },
+      "psychology": {
+        "core_motivation": "what drives them",
+        "greatest_fear": "what they fear most",
+        "fatal_flaw": "character weakness",
+        "moral_code": "ethical framework",
+        "emotional_triggers": ["what sets them off"],
+        "coping_mechanisms": ["how they handle stress"]
+      },
+      "relationships": [
+        {
+          "character": "other character name",
+          "relationship_type": "friend/enemy/family/romantic",
+          "dynamic": "how they interact",
+          "conflict_source": "what creates tension",
+          "evolution": "how relationship changes"
+        }
+      ],
+      "character_arc": {
+        "starting_state": "who they are at the beginning",
+        "inciting_incident": "what forces change",
+        "obstacles": ["internal and external challenges"],
+        "growth_moments": ["key scenes of development"],
+        "climax_moment": "their biggest test",
+        "resolution_state": "who they become",
+        "lessons_learned": ["what they discover about themselves"]
+      },
+      "skills_and_abilities": {
+        "professional_expertise": ["work-related skills"],
+        "survival_skills": ["practical abilities"],
+        "social_skills": ["interpersonal abilities"],
+        "unique_talents": ["special capabilities"],
+        "limitations": ["what they cannot do"]
+      },
+      "speech_patterns": {
+        "vocabulary_level": "educated/casual/technical",
+        "speech_style": "direct/verbose/hesitant",
+        "catchphrases": ["recurring expressions"],
+        "cultural_markers": ["language that shows background"],
+        "emotional_tells": ["how speech changes with mood"]
+      },
+      "internal_conflicts": [
+        {
+          "conflict": "internal struggle",
+          "manifestation": "how it shows in behavior",
+          "resolution_arc": "how it gets resolved"
+        }
+      ]
+    }
+  ],
+  "character_dynamics": {
+    "primary_relationships": [
+      {
+        "characters": ["Character A", "Character B"],
+        "relationship_arc": "how their relationship evolves",
+        "key_scenes": ["important interaction moments"],
+        "conflict_resolution": "how tensions are resolved"
+      }
+    ],
+    "group_dynamics": {
+      "team_structure": "hierarchy and roles",
+      "communication_patterns": "how they interact as a group",
+      "collective_goals": "shared objectives",
+      "internal_tensions": "group conflicts"
+    }
+  },
+  "character_utilization": {
+    "scene_distribution": "how characters appear across chapters",
+    "pov_rotation": "whose perspective is used when",
+    "character_functions": "plot roles each character serves",
+    "narrative_efficiency": "how each character serves the story"
+  }
+}
+
+Development Guidelines:
+1. Expand on bible character entries with rich detail
+2. Create believable, flawed, three-dimensional characters
+3. Ensure each character serves a narrative purpose
+4. Develop realistic relationship dynamics
+5. Plan character growth arcs that span the full story
+6. Balance character traits to avoid stereotypes
+7. Consider how each character's background affects their worldview
+8. Create distinct voices and speech patterns for each character
+9. Ensure character motivations drive plot forward
+10. Plan character interactions that create natural conflict and growth
+
+Return ONLY the JSON structure above. No explanations, no code blocks, no additional text.

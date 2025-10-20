@@ -9,6 +9,7 @@
 
 gutenberg_downloads/
 *.sqlite
+output
 
 # Build results
 [Dd]ebug/

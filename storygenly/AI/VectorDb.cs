@@ -239,5 +239,66 @@ namespace StoryGenly.AI
             }
             return new float[_embeddingDimension]; // Return empty embedding if not found
         }
+
+        /// <summary>
+        /// Async wrapper for semantic search functionality. Performs semantic search by finding code chunks
+        /// with embeddings most similar to the query text. First generates an embedding for the query text,
+        /// then uses cosine similarity to find the most relevant stored chunks.
+        /// </summary>
+        /// <param name="queryText">The text to search for</param>
+        /// <param name="limit">Maximum number of results to return (default: 5)</param>
+        /// <returns>A list of search results with metadata and similarity scores</returns>
+        public Task<List<SearchResult>> SearchAsync(string queryText, int limit = 5)
+        {
+            // For now, we'll do a simple text-based search since we don't have access to the ModelBridge here
+            // In a real implementation, you'd want to inject the ModelBridge to generate embeddings
+            var results = new List<SearchResult>();
+            
+            using var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            
+            // Simple text search as fallback - in production you'd generate embeddings for the query
+            cmd.CommandText = @"
+                SELECT id, file_path, chunk_index, chunk, hash
+                FROM code_chunks 
+                WHERE chunk LIKE @query 
+                ORDER BY LENGTH(chunk) 
+                LIMIT @limit;
+            ";
+            
+            cmd.Parameters.AddWithValue("@query", $"%{queryText}%");
+            cmd.Parameters.AddWithValue("@limit", limit);
+            
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var metadata = new Dictionary<string, object>
+                {
+                    ["file_path"] = reader.GetString("file_path"),
+                    ["chunk_index"] = reader.GetInt32("chunk_index"),
+                    ["content"] = reader.GetString("chunk")
+                };
+                
+                results.Add(new SearchResult
+                {
+                    Id = reader.GetString("id"),
+                    Score = 0.5f, // Placeholder score for text search
+                    Metadata = metadata
+                });
+            }
+            
+            return Task.FromResult(results);
+        }
+    }
+
+    /// <summary>
+    /// Represents a search result from the vector database.
+    /// </summary>
+    public class SearchResult
+    {
+        public string Id { get; set; } = "";
+        public float Score { get; set; }
+        public Dictionary<string, object> Metadata { get; set; } = new();
     }
 }

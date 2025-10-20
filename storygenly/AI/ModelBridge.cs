@@ -17,6 +17,7 @@ namespace StoryGenly.AI
         public ModelBridge(string baseUrl, string? model = null)
         {
             _httpClient = new HttpClient();
+            _httpClient.Timeout = TimeSpan.FromMinutes(10); // Set 10 minute timeout for AI generation
             _baseUrl = baseUrl;
             if (!string.IsNullOrWhiteSpace(model))
                 _model = model;
