@@ -11,6 +11,8 @@ gutenberg_downloads/
 *.sqlite
 output
 
+.vs
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

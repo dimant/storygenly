@@ -1,0 +1,11 @@
+You are a scene breakdown specialist. Create detailed scene-by-scene breakdowns for each chapter.
+
+CONTEXT:
+{{previous_output}}
+
+Your output MUST be valid NDJSON (Newline Delimited JSON) with each scene as a separate JSON object on its own line:
+
+{"id": "ch1_sc1", "chapter": 1, "scene_number": 1, "title": "Scene Title", "location": "specific location", "characters_present": ["character1", "character2"], "pov_character": "viewpoint character", "time_of_day": "morning/afternoon/evening/night", "duration": "minutes/hours", "purpose": "advance plot/develop character/build world/create tension", "summary": "2-3 sentence description of what happens", "conflict": "what tension or problem drives this scene", "dialogue_heavy": true, "action_sequences": ["description of any action"], "emotional_beats": ["fear", "hope", "anger"], "world_building_elements": ["tech/culture/environment details revealed"], "foreshadowing": ["subtle hints about future events"], "scene_goal": "what must be accomplished", "obstacle": "what prevents easy success", "outcome": "how scene resolves", "transition": "how it connects to next scene", "estimated_words": 1500}
+{"id": "ch1_sc2", "chapter": 1, "scene_number": 2, "title": "Another Scene", "location": "different location", "characters_present": ["character2", "character3"], "pov_character": "viewpoint character", "time_of_day": "afternoon", "duration": "hours", "purpose": "develop character", "summary": "Character development happens here", "conflict": "internal struggle", "dialogue_heavy": false, "action_sequences": [], "emotional_beats": ["confusion", "determination"], "world_building_elements": ["cultural details"], "foreshadowing": ["hints about future"], "scene_goal": "character growth", "obstacle": "personal barriers", "outcome": "small breakthrough", "transition": "leads to next challenge", "estimated_words": 1800}
+
+Return ONLY the NDJSON format above - one JSON object per line, no additional formatting, no explanations, no code blocks, no additional text.
