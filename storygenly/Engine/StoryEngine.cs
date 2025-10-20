@@ -23,7 +23,7 @@ public class StoryEngine
 
     public async Task GenerateStoryAsync(bool forceNew = false)
     {
-        if(!Directory.Exists(_outputFolder))
+        if (!Directory.Exists(_outputFolder))
         {
             Directory.CreateDirectory(_outputFolder);
         }
@@ -50,15 +50,46 @@ public class StoryEngine
             }
         }
 
-        StoryGenerationPhase biblePhase = phases.Where(p => p.Name == "bible").First();;
-        var bibleContext = await HandlePhaseAsync(biblePhase, Enumerable.Empty<JsonElement>());
-        NdJsonParser.WriteToFile(Path.Combine(_outputFolder, $"{biblePhase.Name}.txt"), bibleContext);
+        IEnumerable<JsonElement> bibleContext = Enumerable.Empty<JsonElement>();
+        IEnumerable<JsonElement> chaptersContext = Enumerable.Empty<JsonElement>();
+        List<List<JsonElement>> sceneContext = new List<List<JsonElement>>();
 
+        StoryGenerationPhase biblePhase = phases.Where(p => p.Name == "bible").First();
         StoryGenerationPhase chaptersPhase = phases.Where(p => p.Name == "chapters").First();
-        var chaptersContext = await HandlePhaseAsync(chaptersPhase, bibleContext);
-        NdJsonParser.WriteToFile(Path.Combine(_outputFolder, $"{chaptersPhase.Name}.txt"), chaptersContext);
 
-        var sceneContext = new List<List<JsonElement>>();
+
+        if (!forceNew && File.Exists(Path.Combine(_outputFolder, $"{biblePhase.Name}.txt")))
+        {
+            Log.Information("📚 Bible phase output already exists. Skipping bible generation.");
+            var bibleJson = await File.ReadAllTextAsync(Path.Combine(_outputFolder, $"{biblePhase.Name}.txt"));
+            bibleContext = NdJsonParser.Parse(bibleJson);
+        }
+        else
+        {
+            Log.Information("📚 Starting bible generation phase.");
+            bibleContext = await HandlePhaseAsync(biblePhase, Enumerable.Empty<JsonElement>());
+            NdJsonParser.WriteToFile(Path.Combine(_outputFolder, $"{biblePhase.Name}.txt"), bibleContext);
+        }
+
+        if (!bibleContext.Any())
+        {
+            Log.Error("❌ Bible context is empty. Cannot proceed with story generation.");
+            return;
+        }
+
+        if (!File.Exists(Path.Combine(_outputFolder, $"chapters.txt")) || forceNew)
+        {
+            Log.Information("📚 Starting chapter generation phase.");
+            chaptersContext = await HandlePhaseAsync(chaptersPhase, bibleContext);
+            NdJsonParser.WriteToFile(Path.Combine(_outputFolder, $"{chaptersPhase.Name}.txt"), chaptersContext);
+        }
+        else
+        {
+            Log.Information("📚 Chapter phase output already exists. Skipping chapter generation.");
+            var chaptersJson = await File.ReadAllTextAsync(Path.Combine(_outputFolder, $"{chaptersPhase.Name}.txt"));
+            chaptersContext = NdJsonParser.Parse(chaptersJson);
+            return;
+        }
 
         foreach (var chapterElement in chaptersContext)
         {
@@ -70,12 +101,24 @@ public class StoryEngine
             }
 
             int chapterIndex = NdJsonParser.GetIntProperty(chapterElement, "i") ?? 0;
-            Log.Information("📖 Generating scenes for chapter: {ChapterIndex} {ChapterTitle}", chapterIndex, chapterTitle);
 
-            StoryGenerationPhase scenesPhase = phases.Where(p => p.Name == "scenes").First();
-            var currentChapterContext = new List<JsonElement>(bibleContext) { chapterElement };
-            var chapterScenesContext = await HandlePhaseAsync(scenesPhase, currentChapterContext);
-            NdJsonParser.WriteToFile(Path.Combine(_outputFolder, $"{chapterIndex}_scenes.txt"), chapterScenesContext);
+            if (File.Exists(Path.Combine(_outputFolder, $"{chapterIndex}_scenes.txt")) && !forceNew)
+            {
+                Log.Information("📖 Scenes for chapter {ChapterIndex} {ChapterTitle} already exist. Skipping scene generation.", chapterIndex, chapterTitle);
+                var chapterScenesJson = await File.ReadAllTextAsync(Path.Combine(_outputFolder, $"{chapterIndex}_scenes.txt"));
+                var chapterScenesContext = NdJsonParser.Parse(chapterScenesJson);
+                sceneContext.Add(chapterScenesContext.ToList());
+            }
+            else
+            {
+                Log.Information("📖 Generating scenes for chapter: {ChapterIndex} {ChapterTitle}", chapterIndex, chapterTitle);
+
+                StoryGenerationPhase scenesPhase = phases.Where(p => p.Name == "scenes").First();
+                var currentChapterContext = new List<JsonElement>(bibleContext) { chapterElement };
+                var chapterScenesContext = await HandlePhaseAsync(scenesPhase, currentChapterContext);
+                sceneContext.Add(chapterScenesContext.ToList());
+                NdJsonParser.WriteToFile(Path.Combine(_outputFolder, $"{chapterIndex}_scenes.txt"), chapterScenesContext);
+            }
         }
     }
 
@@ -103,18 +146,18 @@ public class StoryEngine
         var jsonElements = NdJsonParser.Parse(response);
         return jsonElements;
     }
-    
+
     private string PostProcess(string text)
     {
         var lines = text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         var validLines = new List<string>();
-        
+
         foreach (var line in lines)
         {
             var trimmedLine = line.Trim();
             if (string.IsNullOrEmpty(trimmedLine))
                 continue;
-                
+
             try
             {
                 JsonDocument.Parse(trimmedLine);
@@ -125,7 +168,7 @@ public class StoryEngine
                 Log.Warning("⚠️ Skipping invalid JSON line: {Line}", trimmedLine);
             }
         }
-        
+
         return string.Join('\n', validLines);
     }
 }
