@@ -32,6 +32,7 @@ namespace StoryGenly
             var modelBridge = new ModelBridge(
                 config["ModelBridge:BaseUrl"] ?? throw new InvalidOperationException("BaseUrl is not configured"),
                 config["ModelBridge:DefaultModel"]);
+
             var vectorDb = new AI.VectorDb(
                 config["VectorDb:dbFilePath"] ?? throw new InvalidOperationException("VectorDb dbFilePath is not configured"));
 
