@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Serilog;
 
 using StoryGenly.AI;
 using StoryGenly.Gutenberg;
@@ -9,8 +10,16 @@ namespace StoryGenly
     {
         public static async Task Main(string[] args)
         {
-            // Parse command line arguments
-            var parsedArgs = ParseArguments(args);
+            // Configure Serilog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            try
+            {
+                // Parse command line arguments
+                var parsedArgs = ParseArguments(args);
 
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -28,7 +37,6 @@ namespace StoryGenly
                 return;
             }
 
-            // Default behavior if no arguments
             var modelBridge = new ModelBridge(
                 config["ModelBridge:BaseUrl"] ?? throw new InvalidOperationException("BaseUrl is not configured"),
                 config["ModelBridge:DefaultModel"]);
@@ -40,7 +48,16 @@ namespace StoryGenly
                 config["StoryEngine:OutputFolder"] ?? throw new InvalidOperationException("StoryEngine OutputFolder is not configured"),
                 config["StoryEngine:PromptsFolder"] ?? throw new InvalidOperationException("StoryEngine PromptsFolder is not configured"));
 
-            await storyGenerator.GenerateStoryAsync();
+                await storyGenerator.GenerateStoryAsync(forceNew: parsedArgs.ContainsKey("force-new-story"));
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static async Task HandleExtractChunksAsync(IConfigurationRoot config)
@@ -56,16 +73,16 @@ namespace StoryGenly
                 overlapChars: 200);
             foreach (var chunk in chunks)
             {
-                Console.WriteLine($"Embedding chunk from {chunk.filename} [{chunk.index}].");
+                Log.Information("Embedding chunk from {Filename} [{Index}]", chunk.filename, chunk.index);
                 var id = Path.GetFileNameWithoutExtension(chunk.filename) + $"_{chunk.index}";
                 try
                 {
                     var embedding = await modelBridge.GenerateEmbeddingsAsync(new[] { chunk.code_chunk }, "jina/jina-embeddings-v2-base-en:latest");
                     vectorDb.InsertRow(id, chunk.filename, chunk.index, chunk.code_chunk, chunk.hash, embedding[0]);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"Error embedding chunk {id}: {chunk.code_chunk}");
+                    Log.Error(ex, "Error embedding chunk {ChunkId}: {ChunkContent}", id, chunk.code_chunk);
                 }
             }
         }
@@ -97,7 +114,7 @@ namespace StoryGenly
         private static async Task HandleGutenbergDownload(IConfiguration config)
         {
             var query = config["Gutenberg:DownloadQuery"] ?? throw new InvalidOperationException("Gutenberg DownloadQuery is not configured");
-            Console.WriteLine($"Downloading books with query: {query}");
+            Log.Information("Downloading books with query: {Query}", query);
 
             var gutenbergDownloader =
                 new GutenbergDownloader(

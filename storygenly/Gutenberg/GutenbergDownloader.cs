@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.VisualBasic;
 using StoryGenly.Models;
+using Serilog;
 
 namespace StoryGenly.Gutenberg
 {
@@ -26,8 +27,8 @@ namespace StoryGenly.Gutenberg
 
         public async Task DownloadAllBookResultsAsync(string query)
         {
-            Console.WriteLine($"Current working directory: {Directory.GetCurrentDirectory()}");
-            Console.WriteLine($"Download path: {_downloadPath}");
+            Log.Debug("Current working directory: {WorkingDirectory}", Directory.GetCurrentDirectory());
+            Log.Debug("Download path: {DownloadPath}", _downloadPath);
 
             if (!Directory.Exists(_downloadPath))
             {
@@ -42,7 +43,7 @@ namespace StoryGenly.Gutenberg
 
             do
             {
-                Console.WriteLine("Downloading book results page.");
+                Log.Information("Downloading book results page");
                 await DownloadBookResultsPageAsync(bookResults);
                 
                 if (!string.IsNullOrEmpty(bookResults.Next))
@@ -70,16 +71,16 @@ namespace StoryGenly.Gutenberg
             {
                 if (!IsEnglish(bookResult))
                 {
-                    Console.WriteLine($"Skipping non-English book: {bookResult.Title}");
+                    Log.Debug("Skipping non-English book: {BookTitle}", bookResult.Title);
                     continue;
                 }
 
-                Console.WriteLine($"Downloading book: {bookResult.Title}");
+                Log.Information("Downloading book: {BookTitle}", bookResult.Title);
                 var bookFilePath = Path.Combine(_downloadPath, $"{bookResult.Id}.txt");
 
                 if (File.Exists(bookFilePath))
                 {
-                    Console.WriteLine($"Book already downloaded: {bookResult.Title}");
+                    Log.Debug("Book already downloaded: {BookTitle}", bookResult.Title);
                     continue;
                 }
 
@@ -91,11 +92,11 @@ namespace StoryGenly.Gutenberg
 
                 if (!string.IsNullOrEmpty(url))
                 {
-                    Console.WriteLine($"Attempting to download from: {url}");
+                    Log.Debug("Attempting to download from: {Url}", url);
                     try
                     {
                         var response = await _httpClient.GetAsync(url);
-                        Console.WriteLine($"Response status: {response.StatusCode}");
+                        Log.Debug("Response status: {StatusCode}", response.StatusCode);
 
                         if (response.StatusCode == System.Net.HttpStatusCode.Found ||
                             response.StatusCode == System.Net.HttpStatusCode.Redirect)
@@ -104,7 +105,7 @@ namespace StoryGenly.Gutenberg
                             var location = response.Headers.Location?.ToString();
                             if (!string.IsNullOrEmpty(location))
                             {
-                                Console.WriteLine($"Following redirect to: {location}");
+                                Log.Debug("Following redirect to: {Location}", location);
                                 response = await _httpClient.GetAsync(location);
                             }
                         }
@@ -113,17 +114,17 @@ namespace StoryGenly.Gutenberg
 
                         var bookContent = await response.Content.ReadAsStringAsync();
                         await File.WriteAllTextAsync(bookFilePath, bookContent);
-                        Console.WriteLine($"Successfully downloaded: {bookResult.Title}");
+                        Log.Information("Successfully downloaded: {BookTitle}", bookResult.Title);
                     }
                     catch (HttpRequestException ex)
                     {
-                        Console.WriteLine($"Failed to download {bookResult.Title}: {ex.Message}");
+                        Log.Warning(ex, "Failed to download {BookTitle}", bookResult.Title);
                         continue;
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"No suitable text format found for book: {bookResult.Title}");
+                    Log.Warning("No suitable text format found for book: {BookTitle}", bookResult.Title);
                 }
             }
         }

@@ -6,13 +6,13 @@ Your task: create reate a detailed CHAPTER OUTLINE based on the provided story b
 Each line MUST be a valid JSON object with the field `"type"`, followed by attributes
 that match its type.  Allowed types are:
 
-CHAP   →  {"type":"CHAP","i":"1","t":"Chapter Title","sum":"2-3 sentence summary","pov_char":"Character name from prompt","loc":"primary location from prompt","key_events":["event 1","event 2"],"conflict_type": "internal/external/both","tension_level": "low/medium/high","reveals": ["what is discovered or revealed"],"cliffhanger": "how chapter ends to hook reader"} 
+CHAP   →  {"type":"CHAP","i":1,"t":"Chapter Title","sum":"2-3 sentence summary","pov_char":"Character name from prompt","loc":"primary location from prompt","key_events":["event 1","event 2"],"conflict_type": "internal/external/both","tension_level": "low/medium/high","reveals": ["what is discovered or revealed"],"cliffhanger": "how chapter ends to hook reader"} 
 ARC    →  {"type":"ARC", "acts": [[1, 2, 3],[4, 5, 6, 7, 8],[9, 10, 11]],"climax": 10,"res": 11}
 THEMES →  ["primary theme", "secondary theme"]
 EST_WORDS → 75000
 
 Example:
-{"type":"CHAP","i":"1","t":"The Cryogenic Trap","sum":"Captain Johnathan Ross and his crew find refuge in an ice cave beneath the frozen surface of Europa.","pov_char":"Captain Johnathan Ross","loc":"Ice Cave","key_events":["Stranding", "Initial assessment of resources"],"conflict_type": "external","tension_level": "low","reveals": ["Discovery of the underground ice cave's size and potential for shelter"],"cliffhanger": "The crew notices strange echoes within the cave walls, hinting at a mysterious phenomenon."} 
+{"type":"CHAP","i":1,"t":"The Cryogenic Trap","sum":"Captain Johnathan Ross and his crew find refuge in an ice cave beneath the frozen surface of Europa.","pov_char":"Captain Johnathan Ross","loc":"Ice Cave","key_events":["Stranding", "Initial assessment of resources"],"conflict_type": "external","tension_level": "low","reveals": ["Discovery of the underground ice cave's size and potential for shelter"],"cliffhanger": "The crew notices strange echoes within the cave walls, hinting at a mysterious phenomenon."} 
 
 Guidelines:
 
